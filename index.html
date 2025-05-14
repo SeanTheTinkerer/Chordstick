@@ -1,0 +1,1763 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-N75HVLK2VC"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-N75HVLK2VC');
+  </script>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chord Stick</title>
+  <style>
+    body {
+      align-items: center;
+      background-color: #2b2929;
+      /* Background color outside the container */
+      text-size-adjust: none;
+      -webkit-text-size-adjust: none;
+    }
+
+    h3 {
+      margin-bottom: 2px;
+    }
+
+    h3:first-child {
+      margin-top: 0;
+    }
+
+    /* Optionally adjust spacing between image and text */
+    img {
+      margin-top: 5px;
+      margin-left: 5px;
+    }
+
+    /* Button styles */
+
+    /* Button styles */
+    #generatePdfButton {
+      font-size: large;
+      font-weight: bold;
+      padding: 8px 1em;
+      margin-top: 1em;
+      background-color: rgb(255, 0, 0);
+      color: white;
+      border: 1px solid black;
+      border-radius: 5px;
+      cursor: pointer;
+      box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+      transition: background-color 0.3s ease, color 0.3s ease;
+      margin-bottom: 5px;
+    }
+
+    #generatePdfButton:hover {
+      background-color: black;
+      color: white;
+    }
+
+    #generatePdfButton:disabled {
+      background-color: grey;
+      color: lightgrey;
+      cursor: not-allowed;
+    }
+
+    /* Position the dropdown absolutely, below the label and aligned left */
+    #keyspan {
+      position: absolute;
+      top: 100%;
+      left: 0;
+    }
+
+    .align-center {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      margin: 0;
+      /* Removes any default margin */
+    }
+
+    .banner {
+      align-self: center;
+      width: calc(100vw - 1em);
+      background-image: url('banner.png');
+      background-size: cover;
+      background-position: center;
+      color: white;
+      text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+      position: relative;
+      /* Added for positioning the buttons */
+    }
+
+    .banner h1 {
+      margin-left: 1em;
+    }
+
+    .banner .button-container {
+      position: relative;
+    }
+
+    .banner .button-container button {
+      margin: 5px;
+      padding: 5px 5px;
+      border: none;
+      background-color: #ca0b0b;
+      color: white;
+      font-size: large;
+      cursor: pointer;
+      outline: none;
+      /* Remove the default outline */
+      transition: background-color 0.3s, transform 0.1s;
+    }
+
+    .banner .button-container button:hover {
+      background-color: #333;
+    }
+
+    .banner .button-container button:active {
+      background-color: #555;
+      transform: translateY(2px);
+      /* Move the button down slightly to give a pressed effect */
+    }
+
+    .container {
+      display: none;
+      /* Hide containers by default */
+      padding: 0px;
+      border: 0px solid black;
+      margin: 0px;
+    }
+
+    .container.visible {
+      display: block;
+      /* Show container when active */
+    }
+
+    .content-wrapper {
+      padding: 0.5em;
+      box-sizing: border-box;
+      /* Ensure padding is included in the width */
+    }
+
+    .row {
+      margin-top: 10px;
+      margin-left: 0px;
+      margin-right: 0px;
+      display: flex;
+      width: 100%;
+      flex-wrap: wrap;
+      column-gap: 1vw;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, calc(50vw - 1vw)), 1fr));
+      grid-template-rows: 1fr auto;
+    }
+
+    .column {
+      background-color: rgb(245, 239, 224);
+      grid-column: auto / span 2;
+      flex-grow: 1;
+      flex-shrink: 1;
+      flex-basis: 0;
+      min-width: 30em;
+    }
+
+    /*
+    .column-left {}
+
+    .column-right {}
+    */
+
+    /*
+        #leftContainer { display:flex; align-items:center; justify-content:left; height:100%; position:relative; }
+        
+        #rhsContainer { display:flex; align-items:center; justify-content:space-between; border:0px solid #ddd; padding:5px; }
+        */
+
+    #displayText {
+      border: 1px solid black;
+      width: 100%;
+      height: 3.5em;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+
+    .dropdown-container {
+      position: relative;
+      margin-right: 10px;
+    }
+
+    .input-container {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 1px;
+      /* Adjusts space between sections */
+    }
+
+    .input-container td {
+      vertical-align: middle;
+    }
+
+    .input-container h3 {
+      margin-top: 0px;
+    }
+
+    .input-container label {
+      margin-right: 10px;
+    }
+
+    .input-container input[type="number"],
+    .input-container input[type="radio"] {
+      margin-right: 5px;
+    }
+
+    .input-container .paper-size-item {
+      display: flex;
+      align-items: center;
+      margin-right: 15px;
+    }
+
+    input[type=number] {
+      width: 3em;
+      text-align: right;
+    }
+
+    .key-container {
+      display: flex;
+      align-items: center;
+    }
+
+    /*    .main-content {} */
+
+    .myfooter {
+      justify-self: center;
+      text-align: center;
+      color: white;
+      text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+    }
+
+    #examplepics {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-evenly;
+      text-align: center;
+    }
+
+    #examplepics img {
+      max-width: 40vw;
+    }
+
+    /*    #shapescontainer {}  */
+
+    #shapeslist .plus {
+      color: green;
+      font-size: xx-large;
+      font-weight: bold;
+      -webkit-text-stroke: 1px green;
+      vertical-align: top;
+      padding: 0.3em;
+    }
+
+    #shapeslist .minus {
+      color: black;
+      font-size: xx-large;
+      font-weight: bold;
+      -webkit-text-stroke: 1px black;
+      vertical-align: top;
+      padding: 0.3em;
+    }
+
+    #shapeslist img {
+      max-width: 15vw;
+    }
+
+    /* Display radio buttons and images inline */
+    .radio {
+      display: inline-block;
+      margin-right: 10px;
+    }
+
+    .radio img {
+      width: 9vw;
+    }
+
+    .paper-size-item {
+      margin-right: 10px;
+      /* Adjust the spacing between items if needed */
+    }
+
+    /* Sortable lists */
+    .sortable-lists-container {
+      display: flex;
+      margin-top: 0.5em;
+      column-gap: 1vw;
+    }
+
+    .desktop-sortable-list {
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
+      border: 1px solid #ccc;
+      width: 90%;
+      min-height: 200px;
+      margin-right: 20px;
+      box-sizing: border-box;
+      background-color: transparent;
+      box-shadow: 0 0 0 2px #333;
+    }
+
+    .desktop-sortable-list li {
+      border: 1px solid black;
+      margin: 3px 0;
+      height: 35px;
+      padding-left: 20px;
+      max-height: 2.5em;
+      /* cursor:grab; */
+      box-sizing: border-box;
+      display: flex;
+      align-items: center;
+    }
+
+
+    .sortable-list {
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
+      border: 1px solid #ccc;
+      min-height: 200px;
+      margin-right: 20px;
+      box-sizing: border-box;
+      background-color: transparent;
+      box-shadow: 0 0 0 2px #333;
+    }
+
+    .sortable-list li {
+      border: 1px solid black;
+      margin: 3px 0;
+      height: 35px;
+      padding-left: 20px;
+      max-height: 2.5em;
+      /* cursor:grab; */
+      box-sizing: border-box;
+      display: flex;
+      align-items: center;
+    }
+
+    .sortable-list li.placeholder {
+      border: 2px dashed #000;
+      background: #e0e0e0;
+      min-height: 40px;
+    }
+
+    .sortable-list li .enabled {
+      display: none;
+    }
+
+    .sortable-list li .enabled:not(:checked)~.enable-cb {
+      margin-left: 0.2em;
+      margin-right: 0.2em;
+      font-size: xx-large;
+      color: black;
+      cursor: pointer;
+    }
+
+    .sortable-list li .enabled:not(:checked)~.enable-tick {
+      display: none;
+    }
+
+    .sortable-list li .enabled:checked~.enable-cb {
+      display: none;
+    }
+
+    .sortable-list li .enabled:checked~.enable-tick {
+      margin-left: 0.2em;
+      margin-right: 0.2em;
+      font-size: xx-large;
+      color: green;
+      cursor: pointer;
+    }
+
+    .sortable-list li .enabled:checked~* {
+      color: green;
+    }
+
+    .sortable-list li .inverted {
+      display: none;
+    }
+
+    .sortable-list li .inverted:not(:checked)~.invert-letter {
+      transform: rotate(0deg);
+    }
+
+    .sortable-list li .inverted:not(:checked)~.invert-arrow {
+      transform: rotate(180deg);
+    }
+
+    .sortable-list li .inverted:checked~.invert-letter {
+      transform: rotate(180deg);
+    }
+
+    .sortable-list li .inverted:checked~.invert-arrow {
+      transform: rotate(0deg);
+    }
+
+    .sortable-list li .invert-letter {
+      position: relative;
+      right: 1.6em;
+      cursor: pointer;
+    }
+
+    .sortable-list li .invert-arrow {
+      margin-left: 0.1em;
+      font-size: xxx-large;
+      cursor: pointer;
+    }
+
+    .sortable-list li .moveup,
+    .sortable-list li .movedn {
+      font-size: xx-large;
+      margin-right: 0.2em;
+      cursor: pointer;
+    }
+
+    .sortable-list li:first-child>.moveup {
+      visibility: hidden;
+    }
+
+    .sortable-list li:last-child>.movedn {
+      visibility: hidden;
+    }
+
+    .sortable-list .desc {
+      flex: 3;
+    }
+
+    .chord {
+      background-color: lightcoral;
+    }
+
+    .scale {
+      background-color: lightblue;
+    }
+
+    .invert {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .invert label {
+      font-size: smaller;
+    }
+
+    .invert-checkbox {
+      margin-top: 0px;
+    }
+
+
+    .toggle-section {
+      display: none;
+    }
+
+    .toggle-section.active {
+      display: block;
+    }
+  </style>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.14.0/Sortable.min.js"></script>
+  <!--- Include Javascript PDF library and mobile drag & drop compatibililty --->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+</head>
+
+<body>
+
+  <div class="row">
+    <div class="banner">
+      <h1 class="align-center">ChordStick</h1>
+      <div class="button-container">
+        <button id="WhatIs" onclick="switchToDefault()">What is a ChordStick</button>
+        <button id="MakeYourOwn" onclick="switchToInstructions()">Make your own ChordStick</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="instructionsView" class="container">
+    <div class="row">
+
+      <div class="column column-left">
+        <div class="content-wrapper">
+          <h3>Keyboard Size</h3>
+          <img src="Octave.png" alt="KeySpan Image">
+          <div class="key-container">
+            <label for="KeySpan">Select the length of 1 octave: </label>
+            <div class="dropdown-container">
+              <select id="KeySpan" name="KeySpan">
+                <option value="165">Full Size (165mm)</option>
+                <option value="137">Mini Keys (137mm)</option>
+              </select>
+            </div>
+          </div>
+          <h3>ChordStick Size and Shape</h3>
+          <!-- Radio buttons and images displayed horizontally -->
+          <div id="shapescontainer">
+            <div class="radio">
+              <img src="Round.png">
+              <br>
+              <input type="radio" id="round" name="Shape" value="Round" onclick="displayText()">
+              <label for="round">Round</label>
+            </div>
+            <div class="radio">
+              <img src="Flat.png">
+              <br>
+              <input type="radio" id="flat" name="Shape" value="Flat" onclick="displayText()">
+              <label for="flat">Flat</label>
+            </div>
+            <div class="radio">
+              <img src="Triangle.png">
+              <br>
+              <input type="radio" id="triangular" name="Shape" value="Triangular" onclick="displayText()">
+              <label for="triangular">Triangular</label>
+            </div>
+            <div class="radio">
+              <img src="Square.png">
+              <br>
+              <input type="radio" id="square" name="Shape" value="Square" onclick="displayText()" checked>
+              <label for="square">Square</label>
+            </div>
+
+            <div id="leftContainer">
+              <div id="displayText">
+                <!-- Text will be centered here -->
+              </div>
+            </div>
+          </div>
+
+          <table>
+            <tr>
+              <td><label for="Size">Dimension (mm):</label></td>
+              <td><input type="number" id="Size" name="Size" required value="15"></td>
+            </tr>
+            <tr>
+              <td><label for="StickLength">Stick Length (Semitones):</label></td>
+              <td><input type="number" id="StickLength" name="StickLength" required value="13"></td>
+            </tr>
+          </table>
+
+          <div class="input-container">
+            <table>
+              <tr>
+                <td>
+                  <h3>Appearance:</h3>
+                </td>
+                <td>
+                  <input type="radio" id="color" name="Color" value="Color" checked>
+                  <label for="color">Colour</label>
+                  <input type="radio" id="mono" name="Color" value="Mono">
+                  <label for="mono">Black and White</label>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <h3>Paper Size:</h3>
+                </td>
+                <td>
+                  <input type="radio" id="paperA4" name="Paper" value="A4" checked>
+                  <label for="paperA4">A4</label>
+                  <input type="radio" id="paperA3" name="Paper" value="A3">
+                  <label for="paperA3">A3</label>
+                  <input type="radio" id="paperLetter" name="Paper" value="Letter">
+                  <label for="paperLetter">Letter</label>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <h3>Note Intervals:</h3>
+                </td>
+                <td>
+                  <input type="radio" id="AdvancedOff" name="Advanced" value="off" checked>
+                  <label for="AdvancedOff">Off</label>
+                  <input type="radio" id="AdvancedOn" name="Advanced" value="on">
+                  <label for="AdvancedOn">On</label>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="column column-right">
+        <div class="content-wrapper">
+          <div id="rhsContainer">
+            <h3>Chords/Scales</h3>
+          </div>
+          <span id="generatebutton" style="display: flex; align-items: center; gap: 10px; justify-content: space-between; width: 90%;">
+            <div style="display: flex; align-items: center; gap: 10px;">
+            <label for="viewSelector">Select View:</label>
+            <select id="viewSelector" style="margin-right: 40px;">
+              <option value="mobile">Mobile Version</option>
+              <option value="desktop" selected>Desktop Version</option>
+            </select>
+            </div>
+            <button id="generatePdfButton" onclick="GeneratePDF()">
+              Generate PDF
+            </button>
+          </span>
+          <!-- Desktop Version -->
+          <div id="desktopVersion" class="toggle-section">
+            To create your ChordStick, drag the chords or scales you want from the left box into the right box
+
+            <div class="sortable-lists-container">
+              <div style="width: 55%;">
+                Available
+                <ul id="leftList" class="desktop-sortable-list">
+                  <li data-value="51M" style="background-color: lightcoral;">Chord: M (7th)</li>
+                  <li data-value="51m" style="background-color: lightcoral;">Chord: Minor (7th)</li>
+                  <li data-value="51Dim" style="background-color: lightcoral;">Chord: Dim (7th)</li>
+                  <li data-value="51Aug" style="background-color: lightcoral;">Chord: Aug (7th)</li>
+                  <li data-value="51Sus2" style="background-color: lightcoral;">Chord: Sus2 (7th)</li>
+                  <li data-value="51Sus4" style="background-color: lightcoral;">Chord: Sus4 (7th)</li>
+                  <li data-value="51Maj7" style="background-color: lightcoral;">Chord: Maj7</li>
+
+                  <li data-value="11Major" style="background-color: lightblue;">Scale: Major</li>
+                  <li data-value="11Minor" style="background-color: lightblue;">Scale: Minor</li>
+                  <li data-value="11Dorian" style="background-color: lightblue;">Scale: Dorian</li>
+                  <li data-value="11Lydian" style="background-color: lightblue;">Scale: Lydian</li>
+                  <li data-value="11Locrian" style="background-color: lightblue;">Scale: Locrian</li>
+                  <li data-value="11Blues" style="background-color: lightblue;">Scale: Blues</li>
+                </ul>
+              </div>
+
+              <div style="width: 55%;">
+                Selected
+                <ul id="rightList" class="desktop-sortable-list">
+                  <!-- Right list can be empty initially -->
+                </ul>
+              </div>
+            </div>
+          </div>
+          <!-- Mobile Version -->
+          <div id="mobileVersion" class="toggle-section active">
+            To create your ChordStick, select the chords or scales you want and click the up down arrows to change the
+            order.
+            <br>
+
+            <div class="sortable-lists-container">
+              <div style="width: 80%;">
+                <ul id="mobile_leftList" class="sortable-list">
+                  <li data-value="51M" id="C51M" class="chord">
+                    <input class="enabled" type="checkbox">
+                    <span class="enable-cb" onClick="select(event, true);">&#9744;</span>
+                    <span class="enable-tick" onClick="select(event, false);">&#9745;</span>
+                    <input class="inverted" type="checkbox">
+                    <span class="invert-arrow" onClick="invert(event);">&olarr;</span>
+                    <span class="invert-letter" onClick="invert(event);">A</span>
+                    <span class="moveup" onclick="move(event, -1);">&uArr;</span>
+                    <span class="movedn" onclick="move(event,  2);">&dArr;</span>
+                    <span class="desc">Chord: M (7th)</span>
+                  </li>
+                  <li data-value="51m" id="C51Min" class="chord">
+                    <input class="enabled" type="checkbox">
+                    <span class="enable-cb" onClick="select(event, true);">&#9744;</span>
+                    <span class="enable-tick" onClick="select(event, false);">&#9745;</span>
+                    <input class="inverted" type="checkbox">
+                    <span class="invert-arrow" onClick="invert(event);">&olarr;</span>
+                    <span class="invert-letter" onClick="invert(event);">A</span>
+                    <span class="moveup" onclick="move(event, -1);">&uArr;</span>
+                    <span class="movedn" onclick="move(event,  2);">&dArr;</span>
+                    <span class="desc">Chord: Minor (7th)</span>
+                  </li>
+                  <li data-value="51Aug" id="C51Aug" class="chord">
+                    <input class="enabled" type="checkbox">
+                    <span class="enable-cb" onClick="select(event, true);">&#9744;</span>
+                    <span class="enable-tick" onClick="select(event, false);">&#9745;</span>
+                    <input class="inverted" type="checkbox">
+                    <span class="invert-arrow" onClick="invert(event);">&olarr;</span>
+                    <span class="invert-letter" onClick="invert(event);">A</span>
+                    <span class="moveup" onclick="move(event, -1);">&uArr;</span>
+                    <span class="movedn" onclick="move(event,  2);">&dArr;</span>
+                    <span class="desc">Chord: Aug (7th)</span>
+                  </li>
+                  <li data-value="51Sus2" id="C51Sus2" class="chord">
+                    <input class="enabled" type="checkbox">
+                    <span class="enable-cb" onClick="select(event, true);">&#9744;</span>
+                    <span class="enable-tick" onClick="select(event, false);">&#9745;</span>
+                    <input class="inverted" type="checkbox">
+                    <span class="invert-arrow" onClick="invert(event);">&olarr;</span>
+                    <span class="invert-letter" onClick="invert(event);">A</span>
+                    <span class="moveup" onclick="move(event, -1);">&uArr;</span>
+                    <span class="movedn" onclick="move(event,  2);">&dArr;</span>
+                    <span class="desc">Chord: Sus2 (7th)</span>
+                  </li>
+                  <li data-value="51Sus4" id="C51Sus4" class="chord">
+                    <input class="enabled" type="checkbox">
+                    <span class="enable-cb" onClick="select(event, true);">&#9744;</span>
+                    <span class="enable-tick" onClick="select(event, false);">&#9745;</span>
+                    <input class="inverted" type="checkbox">
+                    <span class="invert-arrow" onClick="invert(event);">&olarr;</span>
+                    <span class="invert-letter" onClick="invert(event);">A</span>
+                    <span class="moveup" onclick="move(event, -1);">&uArr;</span>
+                    <span class="movedn" onclick="move(event,  2);">&dArr;</span>
+                    <span class="desc">Chord: Sus4 (7th)</span>
+                  </li>
+                  <li data-value="51Maj7" id="C51Maj7" class="chord">
+                    <input class="enabled" type="checkbox">
+                    <span class="enable-cb" onClick="select(event, true);">&#9744;</span>
+                    <span class="enable-tick" onClick="select(event, false);">&#9745;</span>
+                    <input class="inverted" type="checkbox">
+                    <span class="invert-arrow" onClick="invert(event);">&olarr;</span>
+                    <span class="invert-letter" onClick="invert(event);">A</span>
+                    <span class="moveup" onclick="move(event, -1);">&uArr;</span>
+                    <span class="movedn" onclick="move(event,  2);">&dArr;</span>
+                    <span class="desc">Chord: Maj7</span>
+                  </li>
+
+                  <li data-value="11Major" id="S11Major" class="scale">
+                    <input class="enabled" type="checkbox">
+                    <span class="enable-cb" onClick="select(event, true);">&#9744;</span>
+                    <span class="enable-tick" onClick="select(event, false);">&#9745;</span>
+                    <input class="inverted" type="checkbox">
+                    <span class="invert-arrow" onClick="invert(event);">&olarr;</span>
+                    <span class="invert-letter" onClick="invert(event);">A</span>
+                    <span class="moveup" onclick="move(event, -1);">&uArr;</span>
+                    <span class="movedn" onclick="move(event,  2);">&dArr;</span>
+                    <span class="desc">Scale: Major</span>
+                  </li>
+                  <li data-value="11Minor" id="S11Minor" class="scale">
+                    <input class="enabled" type="checkbox">
+                    <span class="enable-cb" onClick="select(event, true);">&#9744;</span>
+                    <span class="enable-tick" onClick="select(event, false);">&#9745;</span>
+                    <input class="inverted" type="checkbox">
+                    <span class="invert-arrow" onClick="invert(event);">&olarr;</span>
+                    <span class="invert-letter" onClick="invert(event);">A</span>
+                    <span class="moveup" onclick="move(event, -1);">&uArr;</span>
+                    <span class="movedn" onclick="move(event,  2);">&dArr;</span>
+                    <span class="desc">Scale: Minor</span>
+                  </li>
+                  <li data-value="11Dorian" id="S11Dorian" class="scale">
+                    <input class="enabled" type="checkbox">
+                    <span class="enable-cb" onClick="select(event, true);">&#9744;</span>
+                    <span class="enable-tick" onClick="select(event, false);">&#9745;</span>
+                    <input class="inverted" type="checkbox">
+                    <span class="invert-arrow" onClick="invert(event);">&olarr;</span>
+                    <span class="invert-letter" onClick="invert(event);">A</span>
+                    <span class="moveup" onclick="move(event, -1);">&uArr;</span>
+                    <span class="movedn" onclick="move(event,  2);">&dArr;</span>
+                    <span class="desc">Scale: Dorian</span>
+                  </li>
+                  <li data-value="11Lydian" id="S11Lydian" class="scale">
+                    <input class="enabled" type="checkbox">
+                    <span class="enable-cb" onClick="select(event, true);">&#9744;</span>
+                    <span class="enable-tick" onClick="select(event, false);">&#9745;</span>
+                    <input class="inverted" type="checkbox">
+                    <span class="invert-arrow" onClick="invert(event);">&olarr;</span>
+                    <span class="invert-letter" onClick="invert(event);">A</span>
+                    <span class="moveup" onclick="move(event, -1);">&uArr;</span>
+                    <span class="movedn" onclick="move(event,  2);">&dArr;</span>
+                    <span class="desc">Scale: Lydian</span>
+                  </li>
+                  <li data-value="11Locrian" id="S11Locrian" class="scale">
+                    <input class="enabled" type="checkbox">
+                    <span class="enable-cb" onClick="select(event, true);">&#9744;</span>
+                    <span class="enable-tick" onClick="select(event, false);">&#9745;</span>
+                    <input class="inverted" type="checkbox">
+                    <span class="invert-arrow" onClick="invert(event);">&olarr;</span>
+                    <span class="invert-letter" onClick="invert(event);">A</span>
+                    <span class="moveup" onclick="move(event, -1);">&uArr;</span>
+                    <span class="movedn" onclick="move(event,  2);">&dArr;</span>
+                    <span class="desc">Scale: Locrian</span>
+                  </li>
+                  <li data-value="11Blues" id="S11Blues" class="scale">
+                    <input class="enabled" type="checkbox">
+                    <span class="enable-cb" onClick="select(event, true);">&#9744;</span>
+                    <span class="enable-tick" onClick="select(event, false);">&#9745;</span>
+                    <input class="inverted" type="checkbox">
+                    <span class="invert-arrow" onClick="invert(event);">&olarr;</span>
+                    <span class="invert-letter" onClick="invert(event);">A</span>
+                    <span class="moveup" onclick="move(event, -1);">&uArr;</span>
+                    <span class="movedn" onclick="move(event,  2);">&dArr;</span>
+                    <span class="desc">Scale: Blues</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+
+  <div id="defaultView" class="container visible">
+    <div class="row">
+      <div class="column column-left">
+        <div class="content-wrapper">
+          <h2>What is a ChordStick?</h2>
+          The ChordStick is a device that overlays common chords and scales onto a piano keyboard,
+          clearly indicating which keys should be played.
+          <br /><br />
+          Place the '1' indicator on the ChordStick at the root note, and the marks on the Chordstick
+          indicate the notes to play.
+          <br /><br />
+          ChordStick is ideal for occasional keyboard users, enabling players to quickly see the notes
+          that make up chords and scales.
+          <br /><br />
+          <div id="examplepics">
+            <div>
+              <img src="c-minor.jpg" alt="C Minor">
+              <br />C Minor
+            </div>
+            <div>
+              <img src="eb-minor.jpg" alt="Eb Minor">
+              <br />E&#9837; Minor
+            </div>
+          </div>
+          <h3>Keyboard Size</h3>
+          There are two standard keyboard sizes (full size and mini-keys), a ChordStick can be made for either size.
+          <h3>Stick Length</h3>
+          A stick length of 13 semitones produces an octave long stick.
+          <br />
+          Setting this to a higher number repeats the pattern allowing different chord inversions to be shown.
+          <h3>Invert Option</h3>
+          This is available on items in the selected column, it is used to rotate a row by 180 degrees.
+          <br />
+          If there are two rows on a single side of the ChordStick. Inverting one row allows any row to be
+          placed close to the keys.
+          <br />
+          Useful for flat, triangular and square 'sticks'.
+        </div>
+      </div>
+      <div class="column column-right">
+        <div class="content-wrapper">
+          <h2>Stick Shapes</h2>
+          <div id="shapeslist">
+            <table>
+              <tr>
+                <td colspan=5>
+                  <h3>Round</h3>
+                </td>
+              </tr>
+              <tr>
+                <td><img src="round.jpg" alt="Round Profile Example" style="max-width: 130px"></td>
+                <td>
+                  <div class="plus">+</div>
+                </td>
+                <td>The only shape that works well with an odd number of rows.</td>
+                <td>
+                  <div class="minus">-</div>
+                </td>
+                <td>May be hard to follow since rows don't sit flat against the keys.</td>
+              </tr>
+              <tr>
+                <td colspan=5>
+                  <h3>Flat</h3>
+                </td>
+              </tr>
+              <tr>
+                <td><img src="flat.jpg" alt="Flat Profile Example" style="max-width: 130px"></td>
+                <td>
+                  <div class="plus">+</div>
+                </td>
+                <td>Easy to make - a sheet of paper folded back on itself or around a card former.</td>
+                <td>
+                  <div class="minus">-</div>
+                </td>
+                <td>Limited to 4 rows, two on each side.</td>
+              </tr>
+              <tr>
+                <td colspan=5>
+                  <h3>Triangle</h3>
+                </td>
+              </tr>
+              <tr>
+                <td><img src="triangle.jpg" alt="Triangle Profile Example" style="max-width: 130px"></td>
+                <td>
+                  <div class="plus">+</div>
+                </td>
+                <td>A good angle for easy reading.</td>
+                <td>
+                  <div class="minus">-</div>
+                </td>
+                <td>There are not many triangluar objects to use as 'sticks'.</td>
+              </tr>
+              <tr>
+                <td colspan=5>
+                  <h3>Square</h3>
+                </td>
+              </tr>
+              <tr>
+                <td><img src="square.jpg" alt="Square Profile Example" style="max-width: 130px"></td>
+                <td>
+                  <div class="plus">+</div>
+                </td>
+                <td>Easy to make, easy to read and can hold 8 rows.</td>
+                <td>
+                  <div class="minus">-</div>
+                </td>
+                <td>(None)</td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="myfooter">
+    <p>&copy; 2025 Sean Lange. All rights reserved.</p>
+  </div>
+
+  <!-- Hidden input for storing sorted items -->
+  <input type="hidden" id="sortedItems" name="sortedItems">
+
+  <script>
+
+    function updateDesktop_GenerateButtonState() {
+      var rightColumn = document.getElementById('rightList');
+      var generateButton = document.getElementById('generatePdfButton');
+
+      // Check if the right column is empty
+      if (rightColumn && generateButton) {
+        // Check if rightColumn has any non-empty text content
+        var hasVisibleContent = Array.from(rightColumn.childNodes).some(node =>
+          node.nodeType === Node.ELEMENT_NODE && node.textContent.trim() !== '');
+
+        // Update button state
+        generateButton.disabled = !hasVisibleContent; // Disable if no visible content
+      } else {
+        console.error('Right column or Generate button not found.');
+      }
+    }
+
+    function updateDesktop_clearRightList() {
+      // Get the right list element
+      var rightList = document.getElementById('rightList');
+
+      console.log("ClearDesktop List");
+      // Remove all child elements
+      while (rightList.firstChild) {
+        rightList.removeChild(rightList.firstChild);
+      }
+
+      // Update the state of the generate button and hidden input
+      // updateHiddenInput();
+      updateDesktop_GenerateButtonState();
+    }
+
+    function updateMobile_clearTickedEntries() {
+      // Get the right list element
+      var mobile_leftList = document.getElementById('mobile_leftList');
+
+      // Iterate through the list items
+      mobile_leftList.querySelectorAll('li').forEach(function (item) {
+        var checkboxes = item.querySelectorAll("input[type='checkbox']");
+        var enabledCheckbox = checkboxes[0]; // Assuming the first checkbox is the "enabled" one
+
+        // If the enabled checkbox exists and is checked
+        if (enabledCheckbox && enabledCheckbox.checked) {
+          // Untick the checkbox
+          enabledCheckbox.checked = false;
+        }
+      });
+
+      // Update the state of the generate button and hidden input
+      updateMobile_GenerateButtonState();
+    }
+    // Add event listener for changes in the dropdown
+    document.getElementById('viewSelector').addEventListener('change', function () {
+      switchView(this.value);
+    });
+
+    // Define the function to switch views
+    function switchView(selectedView) {
+      // Hide all sections
+      document.querySelectorAll('.toggle-section').forEach(section => {
+        section.classList.remove('active');
+      });
+
+
+      // Show the selected section
+      if (selectedView === 'mobile') {
+        document.getElementById('mobileVersion').classList.add('active');
+        updateDesktop_clearRightList();
+        updateDesktop_GenerateButtonState();
+
+      } else if (selectedView === 'desktop') {
+        document.getElementById('desktopVersion').classList.add('active');
+        updateMobile_clearTickedEntries();
+        updateDesktop_GenerateButtonState();
+      }
+    }
+
+    // Run the function on page load with the selected value
+    document.addEventListener('DOMContentLoaded', function () {
+      const initialView = document.getElementById('viewSelector').value;
+      switchView(initialView);
+    });
+
+    function displayText() {
+      const displayElement = document.getElementById("displayText");
+      const selectedOption = document.querySelector('input[name="Shape"]:checked').value;
+
+      switch (selectedOption) {
+        case "Round": displayElement.innerHTML = "The 'dimension' of a cylinder is the diameter.<br>Any number of selected items will work.";
+          break;
+
+        case "Flat": displayElement.innerHTML = "The 'dimension' of a flat is the height of the sheet.<br>A sheet has 2 sides, front and back.<br>The selected list should be a multiple of 2.";
+          break;
+
+        case "Triangular": displayElement.innerHTML = "The 'dimension' of a prism is a single side.<br>The selected list should be a multiple of 3.";
+          break;
+
+        case "Square": displayElement.innerHTML = "The 'dimension' of the square is a single side.<br>The selected list should be a multiple of 4.";
+      }
+    }
+
+    // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    // Functions for mobile operation
+
+    // Drag and drop handlers and button helpers for lists
+    function allowDrop(e) {
+      e.preventDefault();
+    }
+
+    function drag(e) {
+      const parentlist = e.target.parentNode.id;
+      const elementid = e.target.id;
+
+      console.log(e.type + " for element ID " + elementid + " from list ID " + parentlist);
+      //    if (e.type == "touchstart") { e.preventDefault(); }
+      e.dataTransfer.setData("listid", parentlist);
+      e.dataTransfer.setData("elementid", elementid);
+    }
+
+    function drop(e, droppedlistid) {
+      var fromlistid;
+      var draggedid;
+
+      e.preventDefault();
+
+      if (e.type == "click") {
+        fromlistid = 'mobile_leftList';
+        draggedid = e.target.id;
+      }
+      else {
+        fromlistid = e.dataTransfer.getData("listid");
+        draggedid = e.dataTransfer.getData("elementid");
+      }
+      console.log(e.type + " for element ID " + draggedid + " from list ID " + fromlistid + ", dropped on list ID " + droppedlistid);
+
+      // Hide the originating element
+      document.querySelector("#" + fromlistid + " " + "#" + draggedid).style = "display:none;";
+      // Reveal the destination element
+      document.querySelector("#" + droppedlistid + " " + "#" + draggedid).style = "display:flex;";
+
+      updateMobile_GenerateButtonState();
+    }
+
+    function del(e) {
+      const elementid = e.target.parentNode.parentNode.id;
+
+      console.log("Delete, parent " + elementid);
+      // Hide the element where the delete button was clicked
+      document.querySelector("#rightList" + " " + "#" + elementid).style = "display:none;";
+      // Reveal the corresponding left list element
+      document.querySelector("#mobile_leftList" + " " + "#" + elementid).style = "display:flex;";
+
+      updateMobile_GenerateButtonState();
+    }
+
+    function select(e, newvalue) {
+      console.log("Set " + newvalue + " target ID " + e.target.parentNode.id + " current target ID " + e.currentTarget.parentNode.id + " source element ID " + e.srcElement.id + " HTML " + e.target.parentNode.parentNode.id);
+      e.target.parentNode.getElementsByClassName("enabled")[0].checked = newvalue;
+      updateMobile_GenerateButtonState();
+    }
+
+    function invert(e) {
+      console.log("Toggle Invert " + e.target.parentNode.id + ", current value " + e.target.parentNode.getElementsByClassName("desc")[0].innerHTML);
+      e.target.parentNode.getElementsByClassName("inverted")[0].checked = !e.target.parentNode.getElementsByClassName("inverted")[0].checked;
+      updateMobile_GenerateButtonState();
+    }
+
+    function move(e, amount) {
+      var li = 0;
+      var child = -1;
+      var lis = mobile_leftList.querySelectorAll('li');
+      var savedli;
+
+      console.log("Move " + e.target.parentNode.id + " by " + amount);
+      // Find out what index child <li> this is
+      lis.forEach(function (item) {
+        if (item.id == e.target.parentNode.id) {
+          child = li;
+        }
+        li++;
+      });
+
+      if (child + amount < 0 || child + amount > lis.length) {
+        console.log("Invalid move attempted from index " + child + " to " + (child + amount));
+      }
+      else {
+        console.log("parent node " + lis[child].parentNode.childNodes[child].id);
+
+        lis[child].parentNode.insertBefore(lis[child], lis[child + amount]);
+      }
+    }
+
+    function updateMobile_GenerateButtonState()  // Also carries out old updateHiddenInput() functions
+    {
+      var leftColumn = document.getElementById('mobile_leftList');
+      var generateButton = document.getElementById('generatePdfButton');
+      var hasVisibleContent = false;
+      var dataValue;
+      var lineid;
+      var checkboxes;
+      var enabledCheckbox;
+      var invertCheckbox;
+      var isenabled;
+      var isinverted;
+      var itemlist = [];
+
+      // See which items are enabled
+      if (leftColumn && generateButton) {
+        mobile_leftList.querySelectorAll('li').forEach(function (item) {
+          dataValue = item.getAttribute('data-value');
+          lineid = item.id;
+          checkboxes = item.querySelectorAll("input[type='checkbox']");
+          enabledCheckbox = checkboxes[0];
+          invertCheckbox = checkboxes[1];
+          isenabled = enabledCheckbox ? enabledCheckbox.checked : false; // Check if checkbox exists
+          isinverted = invertCheckbox ? invertCheckbox.checked : false; // Check if checkbox exists
+          if (isenabled) {
+            hasVisibleContent = true;
+          }
+          // Add "i" prefix if the checkbox is checked
+          itemlist.push((isinverted) ? 'i' : '');
+          //console.log("Line ID " + lineid + " value=" + dataValue + " enabled=" + isenabled + " inverted=" + isinverted);
+        });
+
+        // Update button state
+        generateButton.disabled = !hasVisibleContent;  // Disable if no lines are selected
+      }
+      else {
+        console.error('Right column or Generate button not found.');
+      }
+      document.getElementById('sortedItems').value = itemlist.join(',');  // Possibly no longer used
+    }
+
+    // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    // Functions for desktop operation
+
+    document.addEventListener('DOMContentLoaded', function () {
+      // Initialize sortable lists
+      var leftList = document.getElementById('leftList');
+      var rightList = document.getElementById('rightList');
+
+      new Sortable(leftList, {
+        group: {
+          name: 'shared',
+          pull: 'clone',
+          put: false // Prevent items from being put back into this list
+        },
+        sort: false
+      });
+
+      new Sortable(rightList, {
+        group: 'shared',
+        animation: 150,
+        onEnd: function (/**Event*/evt) {
+          updateHiddenInput();
+          updateDesktop_GenerateButtonState();
+        },
+        onAdd: function (/**Event*/evt) {
+          updateHiddenInput();
+          addButtons(evt.item);
+          updateDesktop_GenerateButtonState();
+        }
+      });
+
+      // Update hidden input with the order of items in the right list
+      function updateHiddenInput() {
+        var sortedItems = [];
+
+        rightList.querySelectorAll('li').forEach(function (item) {
+          var dataValue = item.getAttribute('data-value');
+          var invertCheckbox = item.querySelector('.invert-checkbox');
+          var isInverted = invertCheckbox ? invertCheckbox.checked : false; // Check if checkbox exists
+
+          // Add "i" prefix if the checkbox is checked
+          if (isInverted) {
+            sortedItems.push('i');
+          } else {
+            sortedItems.push('');
+          }
+        });
+        document.getElementById('sortedItems').value = sortedItems.join(',');
+        updateDesktop_GenerateButtonState();
+      }
+
+      function addButtons(item) {
+        var deleteButton = document.createElement('button');
+        deleteButton.innerHTML = '&times;'; // HTML entity for a multiplication sign (X)
+        deleteButton.style.color = 'red';
+        deleteButton.style.border = 'none';
+        deleteButton.style.background = 'white';
+        deleteButton.style.cursor = 'pointer';
+        deleteButton.style.fontSize = '20px'; // Make the X bigger
+        deleteButton.style.margin = 'auto 0 auto auto'; // Right justify the button
+        deleteButton.addEventListener('click', function (event) {
+          event.stopPropagation();
+          item.remove();
+          updateHiddenInput();
+        });
+        deleteButton.addEventListener('touchstart', function (event) {
+          event.preventDefault();
+          event.stopPropagation();
+          item.remove();
+          updateHiddenInput();
+        });
+        var invertCheckbox = document.createElement('input');
+        invertCheckbox.type = 'checkbox';
+        invertCheckbox.className = 'invert-checkbox';
+        invertCheckbox.addEventListener('change', function () {
+          updateHiddenInput();
+        });
+
+        var invertLabel = document.createElement('label');
+        invertLabel.textContent = 'Invert';
+        invertLabel.className = 'invert-label';
+
+        var invertContainer = document.createElement('div');
+        invertContainer.className = 'invert-container';
+
+        invertContainer.appendChild(invertLabel);
+        invertContainer.appendChild(invertCheckbox);
+
+        // Style the item to position the buttons correctly
+        item.style.display = 'flex';
+        item.style.alignItems = 'center';
+        item.style.justifyContent = 'space-between';
+        item.style.paddingRight = '5px'; // Add padding to ensure space for the buttons
+
+        var buttonContainer = document.createElement('div');
+        buttonContainer.style.display = 'flex';
+        buttonContainer.style.alignItems = 'center';
+
+        buttonContainer.appendChild(invertContainer);
+        buttonContainer.appendChild(deleteButton);
+
+        item.appendChild(buttonContainer);
+        //            updateDesktop_GenerateButtonState();
+      }
+
+
+      // Call this function whenever you might change the content of the right column
+      // For example, you might call it after adding or removing items
+      function onContentChange() {
+        updateDesktop_GenerateButtonState();
+      }
+
+      // Call displayText to show the default selected shape text
+      displayText();
+      //      switchToInstructions(document.getElementById('instructionsButton'));
+      switchToDefault(document.getElementById('defaultButton'));
+
+      updateDesktop_GenerateButtonState();
+      updateMobile_GenerateButtonState();
+
+      // Initialize buttons for pre-existing items in the right list (if any)
+      rightList.querySelectorAll('li').forEach(addButtons);
+    });
+
+    // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    // Generate the PDF file
+
+    async function GeneratePDF() {
+      // Check if jsPDF is available
+      if (typeof window.jspdf === 'undefined') {
+        console.error("jsPDF library is not loaded.");
+        return;
+      }
+
+      const selectedView = document.getElementById('viewSelector').value;
+
+      // Import jsPDF from the library
+      const { jsPDF } = window.jspdf;
+
+      // Retrieve user input
+      const octaveLength = parseFloat(document.getElementById("KeySpan").value);
+      const shape = document.querySelector('input[name="Shape"]:checked').value;
+      const size = parseFloat(document.getElementById("Size").value);
+      const colorOption = document.querySelector('input[name="Color"]:checked').value;
+      const paperSize = document.querySelector('input[name="Paper"]:checked').value;
+
+      if (selectedView === 'mobile') {
+        console.log(" MOBILE ");
+        // Get data from only the selected (ie visible) entries in the rightList
+        //const entries = Array.from(document.getElementById('rightList').querySelectorAll('li'))
+        //                    .map(item => item.getAttribute('data-value'));
+        //const sortedItems = document.getElementById('sortedItems').value.split(',');
+        var entries = [];
+        var sortedItems = [];
+        var checkboxes;
+        var enabledCheckbox;
+        var invertCheckbox;
+        var isenabled;
+        var isinverted;
+        mobile_leftList.querySelectorAll('li').forEach(function (item) {
+          checkboxes = item.querySelectorAll("input[type='checkbox']");
+          enabledCheckbox = checkboxes[0];
+          invertCheckbox = checkboxes[1];
+          isenabled = enabledCheckbox ? enabledCheckbox.checked : false; // Check if checkbox exists
+          isinverted = invertCheckbox ? invertCheckbox.checked : false; // Check if checkbox exists
+          //console.log("Item ID " + item.id + "(" + item.getAttribute('data-value') + ") enabled=" + isenabled + ", inverted=" + isinverted);
+          if (isenabled) {
+            entries.push(item.getAttribute('data-value'));
+            sortedItems.push((isinverted) ? 'i' : '');  // mark inverted lines with "i"
+          }
+        });
+      }
+      else {
+        console.log(" DESKTOP ");
+        entries = Array.from(document.getElementById('rightList').querySelectorAll('li'))
+          .map(item => item.getAttribute('data-value'));
+        sortedItems = document.getElementById('sortedItems').value.split(',');
+      }
+      const advancedOption = document.querySelector('input[name="Advanced"]:checked').value === 'on';
+      const stickLength = parseInt(document.getElementById("StickLength").value); // New input for stick length
+
+      // Paper size dimensions in mm
+      const paperSizes = {
+        'A4': [297, 210],
+        'A3': [420, 297],
+        'Letter': [279.4, 215.9]
+      };
+
+      // Data for chords and scales with color index and text
+      const chordsScales = [
+        ['51M', '511', '', '', '', '523', '', '', '525', '', '', '62b7', ''],
+        ['51m', '511', '', '', '52b3', '', '', '', '525', '', '', '62b7', ''],
+        ['51Dim', '511', '', '', '52b3', '', '', '52b5', '', '', '62bb7', '', ''],
+        ['51Aug', '511', '', '', '', '523', '', '', '', '52#5', '', '62b7', ''],
+        ['51Sus2', '511', '', '522', '', '', '', '', '525', '', '', '62b7', ''],
+        ['51Sus4', '511', '', '', '', '', '524', '', '525', '', '', '62b7', ''],
+        ['51Maj7', '511', '', '', '', '523', '', '', '525', '', '', '', '527'],
+        ['11Major', '111', '', '222', '', '123', '224', '', '125', '', '226', '', '227'],
+        ['11Minor', '111', '', '222', '12b3', '', '224', '', '125', '22b6', '', '22b7', ''],
+        ['11Dorian', '111', '', '222', '22b3', '', '224', '', '225', '', '226', '22b7', ''],
+        ['11Lydian', '111', '', '222', '', '223', '', '22#4', '225', '', '226', '', '227'],
+        ['11Locrian', '111', '22b2', '', '22b3', '', '224', '22#4', '', '22b6', '', '22b7', ''],
+        ['11Blues', '111', '', '', '22b3', '', '224', '22#4', '125', '', '', '22b7', '']
+      ];
+
+      // Table headers (note names)
+      const noteNames = ['Name', 'C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
+
+      // Define color mapping based on the first digit of the color index
+      const colorMap = {
+        '1': [120, 150, 255],
+        '2': [153, 194, 255],
+        '3': [144, 238, 144],
+        '4': [255, 182, 193],
+        '5': [255, 77, 77],
+        '6': [255, 179, 102],
+        '7': [176, 224, 230]
+      };
+
+      // Color map for black & white mode
+      const bwColorMap = {
+        '1': [170, 170, 170],
+        '2': [230, 230, 230],
+        '3': [100, 100, 100],
+        '4': [50, 50, 50],
+        '5': [80, 80, 80],
+        '6': [170, 170, 170],
+        '7': [180, 180, 180]
+      };
+
+      // Select the appropriate color map based on the user's selection
+      const selectedColorMap = colorOption === 'Color' ? colorMap : bwColorMap;
+
+      // Get the paper dimensions based on the selected paper size
+      const [paperWidth, paperHeight] = paperSizes[paperSize];
+
+      // Create new jsPDF instance
+      const doc = new jsPDF({ orientation: 'landscape', format: [paperWidth, paperHeight] });
+
+      // Function to draw a ruler
+      function drawRuler(doc, x, y, length, orientation = 'horizontal') {
+        const tickSpacing = 10; // 10 mm spacing for larger ticks
+        const smallTickSpacing = 1; // 1 mm spacing for smaller ticks
+
+        doc.setFontSize(8); // Set font size for the heading   
+        doc.setTextColor(0, 0, 0); // Set text color to black
+        // Main line
+        if (orientation === 'horizontal') {
+          doc.line(x, y, x + length, y);
+
+          // Draw ticks
+          for (let i = 0; i <= length; i += smallTickSpacing) {
+            const tickLength = (i % tickSpacing === 0) ? 2 : 1; // Longer tick every 10mm
+            doc.line(x + i, y, x + i, y + tickLength);
+
+            // Label every 10mm
+            if (i % tickSpacing === 0) {
+              doc.text(String(i), x + i, y + 5, { align: 'center', baseline: 'middle' });
+            }
+          }
+        } else {
+          doc.line(x, y, x, y + length);
+
+          // Draw ticks
+          for (let i = 0; i <= length; i += smallTickSpacing) {
+            const tickLength = (i % tickSpacing === 0) ? 2 : 1; // Longer tick every 10mm
+            doc.line(x, y + i, x + tickLength, y + i);
+
+            // Label every 10mm
+            if (i % tickSpacing === 0) {
+              doc.text(String(i), x + 3, y + i, { align: 'left', baseline: 'middle' });
+            }
+          }
+        }
+      }
+
+      // Set Custom Font
+      // Add custom font (base64 encoded)
+      // doc.addFileToVFS('myfont.ttf', 'dejavusans-64.ttf');
+      // doc.addFont('myfont.ttf', 'CustomFont', 'normal');
+      // doc.setFont('CustomFont');
+
+      // Map entries to chordsScales, ensuring duplicates and order are preserved
+      const filteredChordsScales = entries.map(entry =>
+        chordsScales.find(chordScale => chordScale[0] === entry) || []
+      );
+
+      // Calculate cell dimensions based on shape and size
+      let cellWidth, cellHeight;
+      let cardHeight;
+
+      switch (shape) {
+        case "Round":
+          cardHeight = size * Math.PI;
+          break;
+        case "Flat":
+          cardHeight = size * 2;
+          break;
+        case "Triangular":
+          cardHeight = size * 3;
+          break;
+        case "Square":
+          cardHeight = size * 4;
+          break;
+        default:
+          cardHeight = size;
+      }
+      cellWidth = octaveLength / 12;
+      cellHeight = cardHeight / filteredChordsScales.length;
+
+      // Create headers based on StickLength, looping through noteNames
+      const headers = Array.from({ length: stickLength }, (_, i) =>
+        noteNames[1 + (i % (noteNames.length - 1))]
+      );
+
+      // Set initial positions
+      let startX = 10;
+      let startY = 10;
+      let RulerOffset = 5;
+      const textColor = [0, 0, 0];
+
+      function drawRotatedText(doc, text, x, y, options) {
+        // Save the current graphics state
+        doc.saveGraphicsState();
+
+        // Move to the desired position
+        doc.text('', x, y);  // Move to (x, y)
+
+        // Rotate the canvas by 180 degrees
+        doc.rotate(180, { origin: [x, y] });
+
+        // Draw the text at the adjusted position
+        doc.text(text, 0, 0, options);
+
+        // Restore the graphics state to undo the rotation
+        doc.restoreGraphicsState();
+      }
+
+
+      // Function to calculate maximum font size that fits within a cell
+      function getMaxFontSize(cellWidth, cellHeight, text) {
+        let fontSize = 10;
+        doc.setFontSize(fontSize);
+        while (doc.getTextWidth(text) < cellWidth && fontSize < cellHeight) {
+          fontSize++;
+          doc.setFontSize(fontSize);
+        }
+        return fontSize * 1.0;
+      }
+
+      // copyright message
+      doc.setTextColor(0, 0, 0); // Set text color to black
+      doc.setFontSize(8); // Set font size for the heading   
+      doc.text("Copyright 2025 Sean Lange, All Rights Reserved", startX + 5, startY, { align: 'left', baseline: 'middle' });
+
+      const websiteUrl = window.location.href; // Get the current URL
+      doc.text(`(This PDF was generated by ChordStick: ${websiteUrl})`, startX + 70, startY, { align: 'left', baseline: 'middle' });
+
+      // Draw the tab box
+      yPosition = startY + 5;
+      const headingHeight = cellHeight / 2; // Set the height of the heading box
+      const headingYPosition = yPosition;
+      const TableWidth = cellWidth * (stickLength + 2);
+      const tab_taper = 0.1;
+      const tab_height = 0.9;
+      const defaultLineWidth = 0.2;
+      const defaultLineColor = [0, 0, 0];
+      const cutLineWidth = 0.1;
+      const cutLineColor = [200, 200, 200];
+      const cutLineOffset = 1;
+
+      // draw cut assist lines
+      doc.setLineWidth(cutLineWidth);
+      doc.setDrawColor(...cutLineColor);
+      doc.line(0, yPosition, startX - cutLineOffset, yPosition);
+      doc.line(startX + TableWidth + cutLineOffset, yPosition, paperWidth, yPosition);
+      doc.line(startX, 0, startX, yPosition - cutLineOffset);
+      console.log(" cardHeight " + cardHeight);
+      console.log(" cardHeight " + cardHeight);
+      console.log(" cellHeight " + cellHeight);
+      doc.line(startX, yPosition + (cellHeight * tab_height) + cardHeight + cutLineOffset, startX, paperHeight);
+      doc.line(startX + TableWidth, 0, startX + TableWidth, yPosition - cutLineOffset);
+      doc.line(startX + TableWidth, yPosition + (cellHeight * tab_height) + cardHeight + cutLineOffset, startX + TableWidth, paperHeight);
+      doc.line(0, yPosition + (cellHeight * tab_height) + cardHeight, startX - cutLineOffset, yPosition + (cellHeight * tab_height) + cardHeight);
+      doc.line(startX + TableWidth + cutLineOffset, yPosition + (cellHeight * tab_height) + cardHeight, paperWidth, yPosition + (cellHeight * tab_height) + cardHeight);
+
+      // Draw taper
+      doc.setLineWidth(defaultLineWidth);
+      doc.setDrawColor(...defaultLineColor);
+      doc.line(startX + (cellWidth * tab_taper), yPosition, startX + TableWidth - (cellWidth * tab_taper), yPosition);
+      doc.line(startX + TableWidth - (cellWidth * tab_taper), yPosition, startX + TableWidth, yPosition + (cellHeight * tab_height));
+      doc.line(startX + TableWidth, yPosition + (cellHeight * tab_height), startX, yPosition + (cellHeight * tab_height));
+      doc.line(startX, yPosition + (cellHeight * tab_height), startX + (cellWidth * tab_taper), yPosition);
+      startY = yPosition + (cellHeight * tab_height);
+
+      InstructionFontSize = 12;
+      doc.setFontSize(InstructionFontSize); // Set font size for the heading   
+      const HeadingText = `Octave Span: ${octaveLength}mm  -  Profile: ${shape}  -  Dimension: ${size}mm`;
+      doc.text(HeadingText, startX + (TableWidth / 2), startY - (cellHeight * tab_height / 2), { align: 'center', baseline: 'middle' });
+
+      doc.setFont('helvetica', 'bold');
+      // Draw the table for each chord/scale
+      filteredChordsScales.forEach((chordScale, rowIndex) => {
+
+        if (rowIndex == 1) {
+          drawRuler(doc, startX + TableWidth + 2, yPosition, size, 'vertical'); // Vertical ruler of 100mm at (150, 20)
+        }
+        yPosition = startY + rowIndex * cellHeight;
+        const chordName = chordScale[0];
+        noteIndex = stickLength;
+
+        if (sortedItems[rowIndex] == 'i') {
+          inverted = true;
+        }
+        else {
+          inverted = false;
+        }
+
+        current_cellOffset = 0;
+        for (let AbsnoteIndex = 0; AbsnoteIndex <= stickLength; AbsnoteIndex += 1) {
+          if (AbsnoteIndex == 0) {
+            current_cellWidth = cellWidth * 2;
+          }
+          else {
+            current_cellWidth = cellWidth;
+          }
+
+          if (AbsnoteIndex > 12) {
+            noteIndex = ((AbsnoteIndex - 1) % 12) + 1;
+          } else {
+            noteIndex = AbsnoteIndex;
+          }
+          if (inverted) {
+            xPosition = startX + ((stickLength + 1) * cellWidth) - (current_cellOffset);
+            if (AbsnoteIndex == 0) {
+              xPosition = xPosition - cellWidth;
+            }
+          }
+          else {
+            xPosition = startX + current_cellOffset;
+          }
+          // const xPosition = startX + current_cellOffset;
+          const colorIndex = chordScale[noteIndex] ? chordScale[noteIndex][0] : '0';
+          cellText = chordScale[noteIndex] ? chordScale[noteIndex].substring(2) : '';
+          const fillColor = selectedColorMap[colorIndex] || [255, 255, 255];
+
+          //            if (noteIndex != 1) {
+          //                // replace 'b' with flat symbol
+          //                cellText = cellText.replace("b", "\u266D");
+          //            }
+          //            console.info(cellText);
+
+          //            console.info(cellText);
+
+          if (cellText) {
+            if (AbsnoteIndex == 0) {
+              doc.setFillColor("#ffffff");
+              doc.setTextColor(0, 0, 0); // Set text color to black
+            }
+            else {
+              doc.setFillColor(...fillColor);
+              doc.setTextColor(255, 255, 255); // Set text color to white
+            }
+            doc.rect(xPosition, yPosition, current_cellWidth, cellHeight, 'F'); // Fill the cell with color
+            doc.rect(xPosition, yPosition, current_cellWidth, cellHeight); // Draw cell border
+            const fontSize = getMaxFontSize(current_cellWidth, cellHeight, cellText);
+            doc.setFontSize(fontSize);
+            // Logic for Advanced Option: Only show the root number if Advanced is off
+            if ((advancedOption) || (!advancedOption && noteIndex <= 1)) {
+              if (inverted) {
+                var textWidth = doc.getStringUnitWidth(cellText) * fontSize;
+                var centerX = xPosition + current_cellWidth / 2 + textWidth / 3;
+                var centerY = yPosition + cellHeight / 2 - fontSize / 4;
+                doc.text(cellText, centerX, centerY, { align: 'center', baseline: 'middle', angle: 180 });
+              }
+              else {
+                doc.text(cellText, xPosition + current_cellWidth / 2, yPosition + cellHeight / 2, { align: 'center', baseline: 'middle' });
+              }
+            }
+          } else {
+            doc.rect(xPosition, yPosition, current_cellWidth, cellHeight); // Draw empty cell border
+          }
+          if (AbsnoteIndex == 0) {
+            // replace 'b' with flat symbol
+            current_cellOffset = current_cellOffset + cellWidth * 2;
+          }
+          else {
+            current_cellOffset = current_cellOffset + cellWidth;
+
+          }
+        };
+      });
+
+      yPosition = yPosition + cellHeight + 2;
+
+      drawRuler(doc, startX + 2 * cellWidth, yPosition, octaveLength, 'horizontal'); // Horizontal ruler of 100mm at (10, 20)
+
+      doc.setFont('helvetica', 'normal');
+
+      doc.setTextColor(0, 0, 0); // Set text color to black
+      InstructionFontSize = 12;
+      doc.setFontSize(InstructionFontSize); // Set font size for the heading   
+
+      yPosition = yPosition + 10;
+
+      startX = startX + 5;
+      doc.text("NOTE:", startX, yPosition, { align: 'left', baseline: 'middle' });
+      doc.text("Select 'Print Actual Size' in the print settings when printing to ensure dimensions are correct when printed.", startX, yPosition + 6, { align: 'left', baseline: 'middle' });
+      doc.text("Use the printed ruler to check, scale the print if the dimensions do not match.", startX, yPosition + 11, { align: 'left', baseline: 'middle' });
+      yPosition = yPosition + 20;
+      doc.text("Cut out the table above, and wrap it around the 'Stick'.", startX, yPosition, { align: 'left', baseline: 'middle' });
+      yPosition = yPosition + 5;
+      doc.text("To use, place the 'Stick' at the back of the keys, line up the '1' with the root note, use the marks to play.", startX, yPosition, { align: 'left', baseline: 'middle' });
+      yPosition = yPosition + 6;
+      GapToText = 5;
+
+      startX = startX + 10;
+      const imgUrl = "ExampleForPDF.jpg";
+      // Add the image to the PDF
+      doc.addImage(imgUrl, 'JPEG', startX, yPosition, 45, 30);
+
+      startX = startX + 70;
+      BoxSide = cellWidth / 2;
+      color = selectedColorMap[5];
+      doc.setFillColor(...color);
+      doc.rect(startX, yPosition, BoxSide, BoxSide, 'F'); // Fill the cell with color
+      doc.text("Chord: Notes in the chord", startX + BoxSide + GapToText, yPosition + BoxSide / 2, { align: 'left', baseline: 'middle' });
+      yPosition = yPosition + BoxSide + 1;
+      color = selectedColorMap[6];
+      doc.setFillColor(...color);
+      doc.rect(startX, yPosition, BoxSide, BoxSide, 'F'); // Fill the cell with color
+      doc.text("Chord: The 7th, add this note for '7' chords", startX + BoxSide + GapToText, yPosition + BoxSide / 2, { align: 'left', baseline: 'middle' });
+      yPosition = yPosition + BoxSide + 1;
+      color = selectedColorMap[1];
+      doc.setFillColor(...color);
+      doc.rect(startX, yPosition, BoxSide, BoxSide, 'F'); // Fill the cell with color
+      doc.text("Scale: The triad of the scale.", startX + BoxSide + GapToText, yPosition + BoxSide / 2, { align: 'left', baseline: 'middle' });
+      yPosition = yPosition + BoxSide + 1;
+      color = selectedColorMap[2];
+      doc.setFillColor(...color);
+      doc.rect(startX, yPosition, BoxSide, BoxSide, 'F'); // Fill the cell with color
+      doc.text("Scale: All notes in the scale.", startX + BoxSide + GapToText, yPosition + BoxSide / 2, { align: 'left', baseline: 'middle' });
+
+
+
+      // This line is for save option  
+      //    doc.save('ChordStick.pdf');
+
+      // This is to open in another tab
+      const blob = doc.output('blob');
+      const url = URL.createObjectURL(blob);
+      window.open(url, '_blank');   // Open the URL in a new tab
+    }
+
+    function switchToDefault() {
+      // JavaScript function to switch to default view
+      console.log('Switched to Default');
+      // Update content or perform actions here
+    }
+
+    function switchToInstructions() {
+      // JavaScript function to switch to instructions view
+      console.log('Switched to Instructions');
+      // Update content or perform actions here
+    }
+
+    function switchToDefault(button) {
+      // Manage button states
+      document.getElementById('WhatIs').classList.add('pressed');
+      document.getElementById('MakeYourOwn').classList.remove('pressed');
+
+      // Show instructions view and hide default view
+      document.getElementById('defaultView').classList.add('visible');
+      document.getElementById('instructionsView').classList.remove('visible');
+
+      // Hide the Generate PDF button
+      document.getElementById('generatePdfButton').style.display = 'none';
+
+      // Perform additional actions if needed
+      console.log('Switched to Default View');
+    }
+
+    function switchToInstructions(button) {
+      // Manage button states
+      document.getElementById('MakeYourOwn').classList.add('pressed');
+      document.getElementById('WhatIs').classList.remove('pressed');
+
+      // Show default view and hide instructions view
+      document.getElementById('instructionsView').classList.add('visible');
+      document.getElementById('defaultView').classList.remove('visible');
+
+      // Show the Generate PDF button
+      document.getElementById('generatePdfButton').style.display = 'block';
+
+      // Perform additional actions if needed
+      console.log('Switched to Instructions View');
+    }
+  </script>
+</body>
+
+</html>
